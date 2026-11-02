@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Between the Pages - Personal Reading Tracker</title>
+    <meta name="description" content="A serene, editorial-inspired digital reading journal and personal library tracker to organize books, document reflections, track goals, and uncover reading insights." />
+    <meta property="og:title" content="Between the Pages - Personal Reading Tracker" />
+    <meta property="og:description" content="A serene, editorial-inspired digital reading journal and personal library tracker to organize books, document reflections, track goals, and uncover reading insights." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts: Cormorant Garamond, Playfair Display, DM Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+    <!-- Application Stylesheet -->
+    <link rel="stylesheet" href="/src/css/style.css" />
+  </head>
+  <body>
+    <!-- Authentication Screen (Rendered when no active session) -->
+    <div id="auth-container" class="auth-wrapper" style="display: none;"></div>
+
+    <!-- Main Authenticated App Layout -->
+    <div id="app-layout" class="app-layout">
+      <!-- Desktop & Tablet Navigation Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="brand-title">Between the Pages</div>
+          <span class="brand-tagline">Personal Reading Journal</span>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Primary Navigation">
+          <a class="nav-item active" data-view="dashboard" href="#dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <span>Dashboard</span>
+          </a>
+
+          <a class="nav-item" data-view="library" href="#library">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            <span>My Library</span>
+          </a>
+
+          <a class="nav-item" data-view="journal" href="#journal">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+            <span>Reading Journal</span>
+          </a>
+
+          <a class="nav-item" data-view="goals" href="#goals">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+            <span>Reading Goals</span>
+          </a>
+
+          <a class="nav-item" data-view="insights" href="#insights">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span>Reading Insights</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <!-- Daily Reading Streak Habit Tracker -->
+          <div class="streak-card">
+            <div class="streak-info">
+              <span class="streak-count tabular-nums" id="sidebar-streak-count">7 Days</span>
+              <span class="streak-label">Daily Reading Habit</span>
+            </div>
+            <button class="btn-streak-checkin" id="btn-sidebar-checkin">Read Today ✓</button>
+          </div>
+
+          <!-- User Profile & Logout Ribbon -->
+          <div class="user-profile-badge" id="sidebar-user-badge">
+            <div class="user-avatar" id="sidebar-user-avatar">E</div>
+            <div class="user-profile-info">
+              <span class="user-profile-name" id="sidebar-user-name">Eleanor Vance</span>
+              <span class="user-profile-email" id="sidebar-user-email">eleanor@betweenthepages.com</span>
+            </div>
+            <button class="btn-logout" id="btn-sidebar-logout" title="Sign out of your journal" aria-label="Sign Out" style="font-size: 0.78rem; display: flex; align-items: center; gap: 0.3rem; padding: 0.35rem 0.55rem; background: var(--bg-secondary); border-radius: var(--radius-sm);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Application Wrapper -->
+      <div class="main-wrapper">
+        <!-- Compact Top Navigation Bar for Mobile -->
+        <header class="mobile-topbar">
+          <div class="mobile-brand">Between the Pages</div>
+          <div class="mobile-right-cluster">
+            <span class="mobile-user-pill" id="mobile-user-name">Eleanor</span>
+            <button class="btn-logout" id="btn-mobile-logout" title="Log out" aria-label="Log Out">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
+            <button class="mobile-menu-btn" id="btn-mobile-menu" aria-label="Open Navigation Menu">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Dynamic Content Area -->
+        <main class="content-area">
+          <section id="view-dashboard" class="view-section active"></section>
+          <section id="view-library" class="view-section"></section>
+          <section id="view-journal" class="view-section"></section>
+          <section id="view-goals" class="view-section"></section>
+          <section id="view-insights" class="view-section"></section>
+        </main>
+      </div>
+    </div>
+
+    <!-- Modals Container -->
+    <div id="modal-book-detail" class="modal-backdrop">
+      <div class="modal-dialog"></div>
+    </div>
+
+    <div id="modal-book-form" class="modal-backdrop">
+      <div class="modal-dialog"></div>
+    </div>
+
+    <div id="modal-journal-form" class="modal-backdrop">
+      <div class="modal-dialog"></div>
+    </div>
+
+    <div id="modal-generic" class="modal-backdrop">
+      <div class="modal-dialog"></div>
+    </div>
+
+    <!-- Celebration Canvas for Confetti -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Toast Notifications Root -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Main Application Entry Script -->
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
