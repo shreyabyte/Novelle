@@ -1,0 +1,6 @@
+{
+  "name": "Novelle - Personal Reading Tracker",
+  "description": "A serene, editorial-inspired digital reading journal and personal library tracker to organize books, document reflections, track goals, and uncover reading insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
