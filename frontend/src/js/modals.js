@@ -6,15 +6,6 @@ import { stateManager } from './state.js';
 import { getIcon } from './icons.js';
 import { showToast, celebrateCompletion } from './toast.js';
 
-// Pre-packaged cover artwork options
-const COVER_PRESETS = [
-  { name: 'The Alchemist (Gold & Starry Cloth)', url: '/src/assets/images/book_the_alchemist_1793596040207.jpg' },
-  { name: 'Atomic Habits (Cream Modern Geometry)', url: '/src/assets/images/book_atomic_habits_1793596040498.jpg' },
-  { name: 'The Silent Patient (Dark Academia Linen)', url: '/src/assets/images/book_silent_patient_1793596040925.jpg' },
-  { name: 'The Book Thief (Aged Sepia Paper)', url: '/src/assets/images/book_book_thief_1793596042433.jpg' },
-  { name: 'Ikigai (Japanese Washi & Ink Blossom)', url: '/src/assets/images/book_ikigai_1793596041279.jpg' }
-];
-
 let activeModal = null;
 
 export function closeModal() {
@@ -372,16 +363,6 @@ export function openBookFormModal(bookId = null) {
 
   setupBackdrop(modalEl);
 
-  const presetSelect = modalEl.querySelector('#book-input-cover-preset');
-  const customWrap = modalEl.querySelector('#custom-cover-wrap');
-  presetSelect.addEventListener('change', () => {
-    if (presetSelect.value === 'custom') {
-      customWrap.style.display = 'block';
-    } else {
-      customWrap.style.display = 'none';
-    }
-  });
-
   modalEl.querySelector('#btn-cancel-book').onclick = () => closeModal();
 
   const form = modalEl.querySelector('#form-book');
@@ -397,21 +378,16 @@ export function openBookFormModal(bookId = null) {
       const rating = Number(modalEl.querySelector('#book-input-rating').value) || 0;
       const notes = modalEl.querySelector('#book-input-notes').value.trim();
 
-      let coverUrl = presetSelect.value;
-      if (coverUrl === 'custom') {
-        coverUrl = modalEl.querySelector('#book-input-custom-cover').value.trim() || COVER_PRESETS[0].url;
-      }
-
       try {
           if (isEdit) {
               await stateManager.updateBook(book.id, {
-                  title, author, genre, totalPages, currentPage, status, rating, coverUrl, notes
+                  title, author, genre, totalPages, currentPage, status, rating, notes
               });
 
               showToast(`Updated "${title}"`);
           } else {
           await stateManager.addBook({
-            title, author, genre, totalPages, currentPage, status, rating, coverUrl, notes
+              title, author, genre, totalPages, currentPage, status, rating, notes
           });
           showToast(`"${title}" added to your bookshelf! 📚`);
         }
